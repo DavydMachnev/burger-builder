@@ -10,7 +10,8 @@ class Checkout extends Component {
       bacon: 0,
       meat: 2,
       cheese: 2
-    }
+    },
+    totalPrice: null
   };
 
   componentDidMount() {
@@ -20,12 +21,18 @@ class Checkout extends Component {
 
   setIngredients = query => {
     const ingredients = {};
+    let price = null;
     for (let param of query.entries()) {
       const [key, value] = param;
-      ingredients[key] = +value;
+      if (key === 'price') {
+        price = value;
+      } else {
+        ingredients[key] = +value;
+      }
     };
     this.setState({
-      ingredients: ingredients
+      ingredients: ingredients,
+      totalPrice: price
     });
   };
   checkoutCanceledHandler = () => {
@@ -37,7 +44,7 @@ class Checkout extends Component {
   };
 
   render() {
-    const { ingredients } = this.state;
+    const { ingredients, totalPrice } = this.state;
     return (
       <div>
         <CheckoutSummary
@@ -45,7 +52,7 @@ class Checkout extends Component {
           checkoutCanceled={this.checkoutCanceledHandler}
           checkoutContinued={this.checkoutContinuedHandler}
         />
-        <Route path={this.props.match.url + '/contact-data'} component={ContactData} />
+        <Route path={this.props.match.url + '/contact-data'} render={() => (<ContactData ingredients={ingredients} price={totalPrice} />)} />
       </div>
     );
   };
