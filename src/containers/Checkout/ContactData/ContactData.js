@@ -10,11 +10,12 @@ import axios from '../../../axios/axiosOrders';
 import classes from './ContactData.module.css';
 
 const mapStateToProps = state => ({
-  ings: state.ingredients,
-  price: state.totalPrice
+  ings: state.burgerBuilder.ingredients,
+  price: state.burgerBuilder.totalPrice,
+  loading: state.order.loading,
 });
 const mapDispatchToProps = dispatch => ({
-  onOrderBurger: (orderData) => dispatch(orderActions.purchaseBurgerStart(orderData))
+  onOrderBurger: (orderData) => dispatch(orderActions.purchaseBurger(orderData))
 });
 class ContactData extends Component {
   state = {
@@ -94,7 +95,7 @@ class ContactData extends Component {
             { value: 'cheapest', displayValue: 'Cheapest' },
           ]
         },
-        value: '',
+        value: 'fastest',
         validation: {},
         valid: true
       },
@@ -159,7 +160,7 @@ class ContactData extends Component {
   }
 
   render() {
-    const { loading, orderForm, formIsValid } = this.state;
+    const { orderForm, formIsValid } = this.state;
     const formElementsArray = [];
     for (let key in orderForm) {
       formElementsArray.push({
@@ -186,7 +187,7 @@ class ContactData extends Component {
         <Button btnType="Success" disabled={!formIsValid}>Order</Button>
       </form>
     );
-    if (loading) {
+    if (this.props.loading) {
       form = <Spinner />
     };
     return (
