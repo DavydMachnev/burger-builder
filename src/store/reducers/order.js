@@ -32,10 +32,6 @@ const fetchOrdersStart = (state, action) => {
   return updateObject(state, { loading: true });
 };
 
-const fetchOrdersStart = (state, action) => {
-  return updateObject(state, { loading: true });
-};
-
 const fetchOrdersSuccess = (state, action) => {
   return updateObject(state, {
     orders: action.orders,
@@ -54,7 +50,7 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.PURCHASE_BURGER_START: return purchaseBurgerStart(state, action);
 
-    case actionTypes.PURCHASE_BURGER_SUCCESS: return purchaseBurgerStart(state, action);
+    case actionTypes.PURCHASE_BURGER_SUCCESS: return purchaseBurgerSuccess(state, action);
 
     case actionTypes.PURCHASE_BURGER_FAIL: return purchaseBurgerFail(state, action);
 
